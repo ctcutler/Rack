@@ -251,8 +251,12 @@ void CableWidget::draw(const DrawArgs& args) {
 		}
 	}
 	else {
-		// Draw opaque if the cable is incomplete
+		// Draw opaque and update color if the cable is incomplete
 		opacity = 1.0;
+
+		int colorId = APP->scene->rack->nextCableColorId - 1;
+		if (colorId < 0) colorId += settings::cableColors.size();
+		color = settings::cableColors[colorId];
 	}
 
 	math::Vec outputPos = getOutputPos();

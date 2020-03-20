@@ -133,6 +133,36 @@ void RackWidget::onHoverKey(const event::HoverKey& e) {
 
 	if (e.action == GLFW_PRESS || e.action == GLFW_REPEAT) {
 		switch (e.key) {
+			case GLFW_KEY_0:
+			case GLFW_KEY_1:
+			case GLFW_KEY_2:
+			case GLFW_KEY_3:
+			case GLFW_KEY_4:
+			case GLFW_KEY_5:
+			case GLFW_KEY_6:
+			case GLFW_KEY_7:
+			case GLFW_KEY_8:
+			case GLFW_KEY_9: {
+				if (e.key == GLFW_KEY_0) {
+					APP->scene->rack->nextCableColorId = 10;
+				} else {
+					APP->scene->rack->nextCableColorId = e.key - GLFW_KEY_0;
+				}
+				APP->scene->rack->nextCableColorId %= settings::cableColors.size();
+				e.consume(this);
+			} break;
+			case GLFW_KEY_MINUS: {
+				APP->scene->rack->nextCableColorId--;
+				if (APP->scene->rack->nextCableColorId < 0) {
+					APP->scene->rack->nextCableColorId += settings::cableColors.size();
+				}
+				e.consume(this);
+			} break;
+			case GLFW_KEY_EQUAL: {
+				APP->scene->rack->nextCableColorId++;
+				APP->scene->rack->nextCableColorId %= settings::cableColors.size();
+				e.consume(this);
+			} break;
 			case GLFW_KEY_V: {
 				if ((e.mods & RACK_MOD_MASK) == RACK_MOD_CTRL) {
 					pastePresetClipboardAction();
